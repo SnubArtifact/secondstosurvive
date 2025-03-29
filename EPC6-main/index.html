@@ -772,6 +772,10 @@ body {
       </div>
       <div class="category-card" data-category="Taglines" onclick="selectCategory('Taglines')">
         <div class="category-header">Taglines</div>
+         <div class="category-card" data-category="Taglines" onclick="selectCategory('Weapons')">
+        <div class="category-header">Weapons</div>
+            <div class="category-card" data-category="Taglines" onclick="selectCategory('Astronomy')">
+        <div class="category-header">Astronomy</div>
       </div>
     </div>
   </div>
@@ -839,6 +843,14 @@ body {
           else if (selectedCategory === 'Sports') {
             numberOfOptions = 4;
           }
+          else if (selectedcategory === 'Weapons') {
+          numberOfOptions = 2;
+          }
+
+          else if (selectedCategory === 'Astronomy') {
+          numberOfOptions = 1;
+          }
+        
         
       
   
@@ -875,6 +887,12 @@ body {
           }
           else if(selectedCategory === 'Taglines'){
             window.location.href = `tagline${i}.html`;
+          }
+          else if(selectedCategory === 'Weapons'){
+            window.location.href = `weapons${i}.html`;
+          }
+          else if(selectedCategory === 'Astronomy'){
+            window.location.href = `astronomy${i}.html`;
           }
         };
   
