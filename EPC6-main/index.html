@@ -773,11 +773,11 @@ body {
       <div class="category-card" data-category="Taglines" onclick="selectCategory('Taglines')">
         <div class="category-header">Taglines</div>
       </div>
-      <div class="category-card" data-category="Weapons" onclick="selectCategory('Weapons')">
-        <div class="category-header">Weapons</div>
-      </div>
       <div class="category-card" data-category="Astronomy" onclick="selectCategory('Astronomy')">
         <div class="category-header">Astronomy</div>
+      </div>
+      <div class="category-card" data-category="Weapons" onclick="selectCategory('Weapons')">
+        <div class="category-header">Weapons</div>
       </div>
     </div>
   </div>
@@ -845,15 +845,15 @@ body {
           else if (selectedCategory === 'Sports') {
             numberOfOptions = 4;
           }
-          else if (selectedcategory === 'Weapons') {
-          numberOfOptions = 2;
-          }
 
-          else if (selectedCategory === 'Astronomy') {
-          numberOfOptions = 1;
-          }
-    };
-        
+         else if(selectedCategory === 'Astronomy') {
+           numnberOfOptions = 1;
+         }
+
+         else if (selectedCategory === 'Weapons') {
+           numberOfOptions = 2;
+         }
+      
         
       
   
@@ -891,11 +891,13 @@ body {
           else if(selectedCategory === 'Taglines'){
             window.location.href = `tagline${i}.html`;
           }
-          else if(selectedCategory === 'Weapons'){
-            window.location.href = `weapons${i}.html`;
-          }
-          else if(selectedCategory === 'Astronomy'){
+
+          else if(selectedCategory === 'Astronomy') {
             window.location.href = `astronomy${i}.html`;
+          }
+
+          else if (selectedcategory === 'Weapons') {
+            window.location.href = `weapons${i}.html`;
           }
         };
   
