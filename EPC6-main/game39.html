@@ -432,48 +432,47 @@
         let player1 = localStorage.getItem("player1") || "Player 1";
         let player2 = localStorage.getItem("player2") || "Player 2";
         let questions = [
-  "anatomy_img_1.png", "anatomy_img_2.png", "anatomy_img_3.png", "anatomy_img_4.png", "anatomy_img_5.png",
-  "anatomy_img_6.png", "anatomy_img_7.png", "anatomy_img_8.png", "anatomy_img_9.png", "anatomy_img_10.png",
-  "anatomy_img_11.png", "anatomy_img_12.png", "anatomy_img_13.png", "anatomy_img_14.png", "anatomy_img_15.png",
-  "anatomy_img_16.png", "anatomy_img_17.png", "anatomy_img_18.png", "anatomy_img_19.png", "anatomy_img_20.png",
-  "anatomy_img_21.png", "anatomy_img_22.png", "anatomy_img_23.png", "anatomy_img_24.png", "anatomy_img_25.png",
-  "anatomy_img_26.png", "anatomy_img_27.png", "anatomy_img_28.png", "anatomy_img_29.png"
+  "astronomy1_img1.png", "astronomy1_img2.png", "astronomy1_img3.png", "astronomy1_img4.png", "astronomy1_img5.png",
+  "astronomy1_img6.png", "astronomy1_img7.png", "astronomy1_img8.png", "astronomy1_img9.png", "astronomy1_img10.png",
+  "astronomy1_img11.png", "astronomy1_img12.png", "astronomy1_img13.png", "astronomy1_img14.png", "astronomy1_img15.png",
+  "astronomy1_img16.png", "astronomy1_img17.png", "astronomy1_img18.png", "astronomy1_img19.png", "astronomy1_img20.png",
+  "astronomy1_img21.png", "astronomy1_img22.png", "astronomy1_img23.png", "astronomy1_img24.png", "astronomy1_img25.png",
+  "astronomy1_img26.png", "astronomy1_img27.png", "astronomy1_img28.png", "astronomy1_img29.png"
 ];
 
-         let answers = {
-  "anatomy_img_1.png": "Skull",
-  "anatomy_img_2.png": "Heart",
-  "anatomy_img_3.png": "Biceps brachii",
-  "anatomy_img_4.png": "Eye",
-  "anatomy_img_5.png": "Ribcage",
-  "anatomy_img_6.png": "Kidney",
-  "anatomy_img_7.png": "Femur (Thigh bone)",
-  "anatomy_img_8.png": "Tongue",
-  "anatomy_img_9.png": "Lungs",
-  "anatomy_img_10.png": "Deltoid (Shoulder Muscle)",
-  "anatomy_img_11.png": "Spinal cord",
-  "anatomy_img_12.png": "Liver",
-  "anatomy_img_13.png": "Scapula (Shoulder Blade)",
-  "anatomy_img_14.png": "Neuron (Nerve Cell)",
-  "anatomy_img_15.png": "Female reproductive system",
-  "anatomy_img_16.png": "Humerus (Upper Arm Bone)",
-  "anatomy_img_17.png": "Phalanges",
-  "anatomy_img_18.png": "Teeth",
-  "anatomy_img_19.png": "Gluteus Maximus (Buttocks)",
-  "anatomy_img_20.png": "Patella (Kneecap)",
-  "anatomy_img_21.png": "Optic nerve",
-  "anatomy_img_22.png": "Pancreas",
-  "anatomy_img_23.png": "Vertebra (Spinal Bone)",
-  "anatomy_img_24.png": "Clavicle (Collarbone)",
-  "anatomy_img_25.png": "Masseter (Jaw Muscle)",
-  "anatomy_img_26.png": "Artery (Red Blood Vessel)",
-  "anatomy_img_27.png": "Stomach",
-  "anatomy_img_28.png": "Nose",
-  "anatomy_img_29.png": "Spleen",
-  
+let answers = {
+  "astronomy1_img1.png": "First picture of a black hole",
+  "astronomy1_img2.png": "Halley’s comet",
+  "astronomy1_img3.png": "Northern Lights",
+  "astronomy1_img4.png": "Andromeda Galaxy",
+  "astronomy1_img5.png": "The Hubble Space Telescope",
+  "astronomy1_img6.png": "Tycho Crater (crater on the moon)",
+  "astronomy1_img7.png": "Neutron Star",
+  "astronomy1_img8.png": "Supernova",
+  "astronomy1_img9.png": "Cassiopeia Constellation",
+  "astronomy1_img10.png": "Red Giant",
+  "astronomy1_img11.png": "Voyager 1",
+  "astronomy1_img12.png": "Gravitational slingshot",
+  "astronomy1_img13.png": "Betelgeuse nebula in Orion",
+  "astronomy1_img14.png": "Perseus Constellation",
+  "astronomy1_img15.png": "Pleiades Star Cluster (Seven Sisters)",
+  "astronomy1_img16.png": "White Dwarf",
+  "astronomy1_img17.png": "Schwarzschild radius",
+  "astronomy1_img18.png": "Cosmic Microwave Background Radiation",
+  "astronomy1_img19.png": "Gamma Ray burst",
+  "astronomy1_img20.png": "International Space Station",
+  "astronomy1_img21.png": "Gravitational Lensing",
+  "astronomy1_img22.png": "Pulsar",
+  "astronomy1_img23.png": "Solar Flare",
+  "astronomy1_img24.png": "Jupiter’s Great Red Spot",
+  "astronomy1_img25.png": "Pillars of Creation (Eagle Nebula)",
+  "astronomy1_img26.png": "Solar Eclipse",
+  "astronomy1_img27.png": "Crab Nebula",
+  "astronomy1_img28.png": "Hoag’s Object",
+  "astronomy1_img29.png": "Milky Way Galaxy"
 };
 
-
+        
 
 
         let currentIndex = 0;
