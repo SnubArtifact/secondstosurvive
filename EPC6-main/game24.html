@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seconds to Survive - Game</title>
+    <style>
+        /* General Styling */
+        body {
+            font-family: 'Press Start 2P', cursive;
+            background: linear-gradient(135deg, #1c0032, #200040, #400080, #ff0080);
+            background-size: 300% 300%;
+            animation: backgroundWave 8s ease infinite;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            position: relative;
+        }
+
+        @keyframes backgroundWave {
+            0% { background-position: 0% 0%; }
+            50% { background-position: 100% 100%; }
+            100% { background-position: 0% 0%; }
+        }
+
+        /* Game Container */
+        .game-container {
+            background: rgba(10, 10, 30, 0.9);
+            backdrop-filter: blur(15px);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 0 40px rgba(255, 0, 255, 0.6);
+            border: 2px solid rgba(255, 0, 255, 0.4);
+            position: relative;
+            width: 90%;
+            max-width: 800px;
+            text-align: center;
+            transition: transform 0.2s ease, box-shadow 0.3s ease;
+        }
+
+        .game-container::before {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            right: -5px;
+            bottom: -5px;
+            background: linear-gradient(45deg, #ff00ff, #ff4500, #ff0080);
+            background-size: 400% 400%;
+            z-index: -1;
+            filter: blur(20px);
+            opacity: 0.8;
+            border-radius: 24px;
+            animation: neonFlow 4s ease infinite;
+        }
+
+        @keyframes neonFlow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Side Timers */
+        .side-timer {
+            position: fixed;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 20px;
+            font-weight: bold;
+            background-color: rgba(255, 215, 0, 0.5);
+            color: #1c0032;
+            padding: 15px;
+            border-radius: 10px;
+            border: 2px solid #ffcc00;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+            width: 140px;
+            text-align: center;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .side-timer.left {
+            left: 20px;
+        }
+
+        .side-timer.right {
+            right: 20px;
+        }
+
+        .side-timer.active {
+            background-color: #ffd700;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.9);
+            transform: translateY(-50%) scale(1.1);
+            border: 3px solid #ffcc00;
+        }
+
+        .side-timer.warning {
+            background-color: #ff4d4d;
+            color: #ffffff;
+            border-color: #ff0000;
+            animation: pulseRed 1s infinite;
+        }
+
+        .player-name {
+            font-size: 14px;
+            margin-bottom: 5px;
+            color: #ffffff;
+            text-shadow: 1px 1px 2px #000000;
+        }
+
+        .timer-value {
+            font-size: 24px;
+        }
+
+        @keyframes pulseRed {
+            0% {
+                box-shadow: 0 0 20px rgba(255, 0, 0, 0.8);
+                transform: translateY(-50%) scale(1);
+            }
+            50% {
+                box-shadow: 0 0 30px rgba(255, 0, 0, 1);
+                transform: translateY(-50%) scale(1.05);
+            }
+            100% {
+                box-shadow: 0 0 20px rgba(255, 0, 0, 0.8);
+                transform: translateY(-50%) scale(1);
+            }
+        }
+
+        /* Question Image */
+        .question-img {
+            width: 100%;
+            max-width: 700px;
+            height: auto;
+            max-height: 70vh;
+            border-radius: 12px;
+            border: 3px solid #ffd700;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.8);
+            margin: 20px 0;
+            object-fit: contain;
+        }
+
+        /* Buttons */
+        .button-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .game-btn {
+            background-color: #e87218;
+            color: #ffffff;
+            padding: 12px 25px;
+            font-size: 16px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 0 15px rgba(106, 13, 173, 0.6);
+            font-family: 'Press Start 2P', cursive;
+        }
+
+        .game-btn:hover {
+            background-color: #8a2be2;
+            transform: translateY(-3px);
+        }
+
+        #pause-btn {
+            background-color: #db1cae;
+        }
+
+        #pause-btn:hover {
+            background-color: #6a1bbd;
+        }
+
+        .back-btn {
+            background-color: transparent;
+            color: #ffffff;
+            font-size: 16px;
+            padding: 12px 25px;
+            border: 2px solid #ffffff;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .back-btn:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+        }
+
+        /* Answer Display */
+        .answer-display {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 15px 0;
+            padding: 10px;
+            border-radius: 8px;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .correct {
+            background-color: rgba(40, 167, 69, 0.8);
+        }
+
+        .wrong {
+            background-color: rgba(220, 53, 69, 0.8);
+        }
+
+        /* Winner Container */
+        .winner-container {
+            background: rgba(10, 10, 30, 0.95);
+            backdrop-filter: blur(15px);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 0 50px rgba(255, 0, 255, 0.8);
+            border: 2px solid rgba(255, 0, 255, 0.6);
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            max-width: 600px;
+            width: 90%;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.5s ease;
+            z-index: 100;
+        }
+
+        .winner-container.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .winner-title {
+            color: #ffd700;
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+
+        .winner-message {
+            font-size: 24px;
+            margin-bottom: 30px;
+        }
+
+        .winner-time {
+            font-size: 20px;
+            margin-bottom: 30px;
+            color: #ffffff;
+        }
+
+        /* Loading Screen */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: #1c0032;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            opacity: 1;
+            transition: opacity 0.5s ease;
+        }
+
+        .loader {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            background-color: rgba(255, 0, 255, 0.1);
+            box-shadow: 0 0 40px rgba(255, 0, 255, 0.8), 0 0 60px rgba(138, 43, 226, 0.8);
+            position: relative;
+            overflow: hidden;
+            border: 4px solid rgba(255, 0, 255, 0.6);
+            animation: glow 2s infinite alternate;
+        }
+
+        .progress {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(45deg, #ff00ff, #ff4500, #ffd700);
+            transition: width 0.2s ease;
+        }
+
+        #progress-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #ffd700;
+            font-size: 24px;
+            font-weight: bold;
+            font-family: 'Press Start 2P', cursive;
+            text-shadow: 0 0 20px #ff4500, 0 0 30px #ffd700;
+        }
+
+        @keyframes glow {
+            from { box-shadow: 0 0 20px rgba(255, 0, 255, 0.5); }
+            to { box-shadow: 0 0 40px rgba(255, 0, 255, 0.9); }
+        }
+
+        .hide-loading {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .side-timer {
+                font-size: 16px;
+                width: 120px;
+                padding: 10px;
+            }
+            
+            .player-name {
+                font-size: 12px;
+            }
+            
+            .timer-value {
+                font-size: 20px;
+            }
+            
+            .question-img {
+                max-width: 90%;
+                max-height: 60vh;
+            }
+            
+            .game-btn, .back-btn {
+                font-size: 14px;
+                padding: 10px 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .side-timer {
+                font-size: 12px;
+                width: 100px;
+                padding: 8px;
+                top: 20px;
+                transform: none;
+            }
+            
+            .side-timer.left {
+                left: 10px;
+                top: 20px;
+            }
+            
+            .side-timer.right {
+                right: 10px;
+                top: 20px;
+            }
+            
+            .player-name {
+                font-size: 10px;
+            }
+            
+            .timer-value {
+                font-size: 16px;
+            }
+            
+            .question-img {
+                max-height: 50vh;
+            }
+            
+            .button-container {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="loading-screen" id="loading-screen">
+        <div class="loader">
+            <div class="progress">
+                <span id="progress-text">0%</span>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Side Timers with Player Names -->
+    <div class="side-timer left" id="side-timer1">
+        <div class="player-name" id="player1-name">Player 1</div>
+        <div class="timer-value">00:45</div>
+    </div>
+    <div class="side-timer right" id="side-timer2">
+        <div class="player-name" id="player2-name">Player 2</div>
+        <div class="timer-value">00:45</div>
+    </div>
+    
+    <div class="game-container">
+        <img id="question-img" class="question-img" src="country2_img31.png" alt="Question">
+        <div class="button-container">
+            <button class="back-btn" onclick="goBack()">⬅️ Back</button>
+            <button id="pause-btn" class="game-btn" onclick="togglePause()">⏸️ Pause</button>
+        </div>
+    </div>
+    
+    <!-- Winner Container (hidden by default) -->
+    <div class="winner-container" id="winner-container">
+        <h1 class="winner-title">Game Over!</h1>
+        <h2 class="winner-message" id="winner-message"></h2>
+        <p class="winner-time" id="winner-time"></p>
+        <button class="game-btn winner-btn" onclick="window.location.href='index.html'">🔄 Play Again</button>
+    </div>
+
+    <audio id="wrong-sound" src="wrong.mp3"></audio>
+    <audio id="correct-sound" src="correct.mp3"></audio>
+    <audio id="tick-tock-sound" src="tick-tock-31883.mp3" loop></audio>
+
+    <script>
+        // Game variables
+        let player1 = localStorage.getItem("player1") || "Player 1";
+        let player2 = localStorage.getItem("player2") || "Player 2";
+        let questions = [
+  "country2_img31.png", "country2_img32.png", "country2_img33.png", "country2_img34.png", "country2_img34.png",
+  "country2_img35.png", "country2_img36.png", "country2_img37.png", "country2_img38.png",
+  "country2_img39.png", "country2_img40.png", "country2_img41.png", "country2_img42.png",
+  "country2_img43.png", "country2_img44.png", "country2_img45.png", "country2_img46.png",
+  "country2_img47.png", "country2_img48.png", "country2_img49.png", "country2_img50.png",
+  "country2_img51.png", "country2_img52.png", "country2_img53.png", "country2_img54.png",
+  "country2_img55.png", "country2_img56.png", "country2_img57.png", "country2_img58.png",
+  "country2_img59.png", "country2_img60.png"
+];
+
+let answers = {
+  "country2_img31.png": "GERMANY",
+  "country2_img32.png": "EGYPT",
+  "country2_img33.png": "SRI LANKA",
+  "country2_img34.png": "SWEDEN",
+  "country2_img35.png": "ICELAND",
+  "country2_img36.png": "MADAGASCAR",
+  "country2_img37.png": "MOROCCO",
+  "country2_img38.png": "SOUTH AFRICA",
+  "country2_img39.png": "SPAIN",
+  "country2_img40.png": "UKRAINE",
+  "country2_img41.png": "UNITED KINGDOM",
+  "country2_img42.png": "UNITED ARAB EMIRATES",
+  "country2_img43.png": "ITALY",
+  "country2_img44.png": "CZECH REPUBLIC",
+  "country2_img45.png": "CANADA",
+  "country2_img46.png": "UNITED STATES OF AMERICA",
+  "country2_img47.png": "NEW ZEALAND",
+  "country2_img48.png": "PORTUGAL",
+  "country2_img49.png": "CHINA",
+  "country2_img50.png": "INDIA",
+  "country2_img51.png": "VIETNAM",
+  "country2_img52.png": "INDONESIA",
+  "country2_img53.png": "JAPAN",
+  "country2_img54.png": "CHILE",
+  "country2_img55.png": "ARGENTINA",
+  "country2_img56.png": "SWITZERLAND",
+  "country2_img57.png": "MYANMAR",
+  "country2_img58.png": "AUSTRALIA",
+  "country2_img59.png": "KAZAKHSTAN",
+  "country2_img60.png": "MEXICO"
+};
+
+
+
+        let currentIndex = 0;
+        let currentUser = 1;
+        let timers = { 1: 45, 2: 45 }; // 2 minutes for each player
+        let interval;
+        let isPaused = false;
+        let isAnswerShown = false;
+        let tickTockSound = document.getElementById("tick-tock-sound");
+
+        // Start the game
+        function startGame() {
+            // Set player names
+            document.getElementById('player1-name').textContent = player1;
+            document.getElementById('player2-name').textContent = player2;
+            
+            startLoadingScreen();
+            updateTimers();
+            updateActiveTimer();
+        }
+
+        // Start timer countdown
+        function startTimer() {
+            clearInterval(interval);
+            
+            interval = setInterval(() => {
+                if (!isPaused && !isAnswerShown) {
+                    timers[currentUser]--;
+                    
+                    // Start tick-tock sound when timer reaches 30 seconds
+                    if (timers[currentUser] === 20) {
+                        tickTockSound.play().catch(err => console.log("Sound play blocked:", err));
+                    }
+                    
+                    // Check if time is up
+                    if (timers[currentUser] <= 0) {
+                        clearInterval(interval);
+                        tickTockSound.pause();
+                        tickTockSound.currentTime = 0;
+                        endGame();
+                        return;
+                    }
+                    
+                    updateTimers();
+                }
+            }, 1000);
+        }
+
+        // Format time as MM:SS
+        function formatTime(seconds) {
+            let min = Math.floor(seconds / 60);
+            let sec = seconds % 60;
+            return `${min}:${sec < 10 ? "0" : ""}${sec}`;
+        }
+
+        // Update timer displays
+        function updateTimers() {
+            document.querySelector('#side-timer1 .timer-value').textContent = formatTime(timers[1]);
+            document.querySelector('#side-timer2 .timer-value').textContent = formatTime(timers[2]);
+            
+            // Add warning effect when timer is low
+            if (timers[1] <= 30) {
+                document.getElementById('side-timer1').classList.add('warning');
+            } else {
+                document.getElementById('side-timer1').classList.remove('warning');
+            }
+            
+            if (timers[2] <= 30) {
+                document.getElementById('side-timer2').classList.add('warning');
+            } else {
+                document.getElementById('side-timer2').classList.remove('warning');
+            }
+        }
+
+        // Update active timer highlight
+        function updateActiveTimer() {
+            // Remove active class from both timers
+            document.getElementById('side-timer1').classList.remove('active');
+            document.getElementById('side-timer2').classList.remove('active');
+            
+            // Add active class to current player's timer
+            document.getElementById(`side-timer${currentUser}`).classList.add('active');
+        }
+
+        // Handle correct answer
+        function correctAnswer() {
+            document.getElementById("correct-sound").play();
+            showAnswer(true);
+            switchUser();
+        }
+
+        // Handle wrong answer
+        function wrongAnswer() {
+            document.getElementById("wrong-sound").play();
+            timers[currentUser] = Math.max(0, timers[currentUser] - 5); // Penalty of 5 seconds
+            showAnswer(false);
+        }
+
+        // Show answer and pause game
+        function showAnswer(isCorrect) {
+            clearInterval(interval);
+            isAnswerShown = true;
+            tickTockSound.pause();
+            tickTockSound.currentTime = 0;
+
+            // Create answer display
+            let answerDisplay = document.createElement('div');
+            answerDisplay.className = `answer-display ${isCorrect ? 'correct' : 'wrong'}`;
+            answerDisplay.textContent = `Answer: ${answers[questions[currentIndex]]}`;
+            
+            // Insert answer display
+            let container = document.querySelector('.game-container');
+            container.insertBefore(answerDisplay, container.querySelector('.button-container'));
+
+            // Move to next question after delay
+            setTimeout(() => {
+                answerDisplay.remove();
+                nextQuestion();
+            }, 2000);
+        }
+
+        // Move to next question
+        function nextQuestion() {
+            currentIndex++;
+            isAnswerShown = false;
+
+            if (currentIndex >= questions.length) {
+                endGame();
+                return;
+            }
+
+            document.getElementById("question-img").src = questions[currentIndex];
+            startTimer();
+        }
+
+        // Switch active player
+        function switchUser() {
+            currentUser = currentUser === 1 ? 2 : 1;
+            updateActiveTimer();
+        }
+
+        // Toggle pause state
+        function togglePause() {
+            isPaused = !isPaused;
+
+            if (isPaused) {
+                tickTockSound.pause();
+                document.getElementById("pause-btn").textContent = "▶️ Resume";
+            } else {
+                if (timers[currentUser] <= 30) {
+                    tickTockSound.play().catch(error => console.log("Audio play prevented:", error));
+                }
+                document.getElementById("pause-btn").textContent = "⏸️ Pause";
+            }
+        }
+
+        // End the game and show winner
+        function endGame() {
+            clearInterval(interval);
+            tickTockSound.pause();
+            tickTockSound.currentTime = 0;
+
+            // Determine winner based on time left
+            let winnerMessage, winnerTime;
+            
+            if (timers[1] > timers[2]) {
+                winnerMessage = `🏆 ${player1} Wins!`;
+                winnerTime = `${player1}: ${formatTime(timers[1])} | ${player2}: ${formatTime(timers[2])}`;
+            } else if (timers[2] > timers[1]) {
+                winnerMessage = `🏆 ${player2} Wins!`;
+                winnerTime = `${player1}: ${formatTime(timers[1])} | ${player2}: ${formatTime(timers[2])}`;
+            } else {
+                winnerMessage = "🤝 It's a Tie!";
+                winnerTime = `Both players: ${formatTime(timers[1])}`;
+            }
+
+            // Show winner screen
+            document.getElementById('winner-message').textContent = winnerMessage;
+            document.getElementById('winner-time').textContent = winnerTime;
+            document.getElementById('winner-container').classList.add('show');
+        }
+
+        // Restart the game
+        function restartGame() {
+            // Reset game state
+            currentIndex = 0;
+            currentUser = 1;
+            timers = { 1: 45, 2: 45 };
+            isPaused = false;
+            isAnswerShown = false;
+
+            // Hide winner screen
+            document.getElementById('winner-container').classList.remove('show');
+
+            // Reset image and timers
+            document.getElementById("question-img").src = questions[0];
+            updateTimers();
+            updateActiveTimer();
+            startTimer();
+        }
+
+        // Go back to registration page
+        function goBack() {
+            window.location.href = 'countries2.html';
+        }
+
+        // Keyboard controls
+        document.addEventListener("keydown", (event) => {
+            if (event.key === "ArrowLeft") {
+                wrongAnswer();
+            } else if (event.key === "ArrowRight") {
+                correctAnswer();
+            } else if (event.key === " ") {
+                togglePause();
+            }
+        });
+
+        // Loading screen animation
+        function startLoadingScreen() {
+            const loadingScreen = document.getElementById("loading-screen");
+            const progressBar = document.querySelector(".progress");
+            const progressText = document.getElementById("progress-text");
+            let progress = 0;
+
+            const interval = setInterval(() => {
+                progress += Math.random() * 10;
+                if (progress > 100) progress = 100;
+
+                progressBar.style.width = `${progress}%`;
+                progressText.textContent = `${Math.round(progress)}%`;
+
+                if (progress === 100) {
+                    clearInterval(interval);
+                    setTimeout(() => {
+                        loadingScreen.classList.add('hide-loading');
+                        setTimeout(() => {
+                            loadingScreen.style.display = 'none';
+                            startTimer();
+                        }, 500);
+                    }, 500);
+                }
+            }, 100);
+        }
+
+        // Start the game when page loads
+        window.onload = startGame;
+    </script>
+</body>
+</html>
